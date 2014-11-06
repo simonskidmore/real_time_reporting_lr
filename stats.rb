@@ -72,6 +72,11 @@ conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admi
   @daily_target = res5[0]["res"].to_i * 11;
 
 
+  if (@unitsmarkedoff.to_f > @daily_target.to_f) then
+    @greenbackground = ' style="background:#00CC99"'
+
+  end
+
 	@date = Time.now.strftime("%d/%m/%Y")
 
   erb :stats
