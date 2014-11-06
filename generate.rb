@@ -1,7 +1,7 @@
 require 'pg'
 
 conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-res = conn.exec("select * from rt_stats")
+res = conn.exec("truncate rt_stats")
 
 teams = Array.new();
 teams << 'CT1'
