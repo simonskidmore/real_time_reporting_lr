@@ -69,6 +69,9 @@ conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admi
 
 	@available_resource = res5[0]["res"];
 
+  @daily_target = res5[0]["res"].to_i * 11;
+
+
 	@date = Time.now.strftime("%d/%m/%Y")
 
   erb :stats
