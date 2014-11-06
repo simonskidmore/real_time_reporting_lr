@@ -9,7 +9,7 @@ CREATE TABLE rt_stats
   appn_type character varying,
   hour integer,
   appn_count integer,
-  units integer,
+  units real,
   modate date
 )
 WITH (
@@ -18,6 +18,6 @@ WITH (
 ALTER TABLE rt_stats
   OWNER TO postgres;
 
-  
-  
+
+
   alter user postgres with password 'admin'
