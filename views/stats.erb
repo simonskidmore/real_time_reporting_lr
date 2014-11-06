@@ -148,7 +148,28 @@ body {
           <b>DLG:</b> <%= @dlgunitsmarkedoff %>
       </div>
 
-    </div> <!-- /container -->
+
+
+    <form role="form" method="POST">
+      <label for="exampleInputEmail1">Today's Available Resource</label>
+      <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <input type="email" class="form-control" id="available_resource" name="available_resource">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">Update</button>
+        </div>
+      </div>
+    </div>
+
+
+
+</form>
+
+</div> <!-- /container -->
 
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
