@@ -51,11 +51,11 @@ conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admi
 	and appn_type = 'DLG'
 	")
 
-  @unitsmarkedoff = res[0]["sum"]
-  @frunitsmarkedoff = res1[0]["sum"]
-  @dflunitsmarkedoff = res2[0]["sum"]
-  @tpunitsmarkedoff = res3[0]["sum"]
-  @dlgunitsmarkedoff = res4[0]["sum"]
+  @unitsmarkedoff = res[0]["sum"].to_f.to_s
+  @frunitsmarkedoff = res1[0]["sum"].to_f.to_s
+  @dflunitsmarkedoff = res2[0]["sum"].to_f.to_s
+  @tpunitsmarkedoff = res3[0]["sum"].to_f.to_s
+  @dlgunitsmarkedoff = res4[0]["sum"].to_f.to_s
 
   @team = team
 
@@ -155,7 +155,7 @@ post '/stats/:office/:team' do
   	where office = '#{office}'
 	and team = '#{team}'
 	")
-	
+
 	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
 	res = conn.exec("
   	insert
