@@ -69,7 +69,7 @@ conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admi
 
 	@available_resource = res5[0]["res"];
 
-  @daily_target = res5[0]["res"].to_i * 11;
+  @daily_target = res5[0]["res"].to_f * 11;
 
 
   if (@unitsmarkedoff.to_f > @daily_target.to_f) then
