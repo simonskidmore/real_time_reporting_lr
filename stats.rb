@@ -59,10 +59,16 @@ conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admi
 
   @team = team
 
-  # get the resource for the team
+	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
+	res5 = conn.exec("
+  	select sum(resource)
+  	from resource
+  	where team = '#{team}'
+	and office = '#{office}' 
+	")
 
 
-  @available_resource = '10';
+	@available_resource = res[5]["sum"];
 
    @date = Time.now.strftime("%d/%m/%Y")
 
@@ -143,7 +149,23 @@ post '/stats/:office/:team' do
 
   available_resource = params['available_resource']
 
-  # Insert or Update the resource table
+	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
+	res = conn.exec("
+  	delete
+  	from resource
+  	where office = '#{office}'
+	and team = '#{team}'
+	")
+	
+	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
+	res = conn.exec("
+  	insert
+  	into resource
+	(office, team, resource)
+	VALUES
+	('#{office}','#{team}','#{available_resource}'
+	)
+	")
 
   redirect '/stats/' + office + '/' + team
 
