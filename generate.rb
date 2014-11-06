@@ -11,31 +11,23 @@ teams << 'CT4'
 teams << 'CT5'
 teams << 'CT6'
 
+applications = Array.new();
+applications << 'DLG'
+applications << 'FR'
+applications << 'DFL'
+applications << 'TP'
+
+
+
 while true do
 
   for i in 0..(teams.length-1)
-    puts teams[i]
-    res = conn.exec("insert into rt_stats (office, team, appn_type, hour, appn_count, units, modate) values ('PH', '#{teams[i]}', 'DLG', null, '1', '#{rand(0.1..0.8).round(2)}', current_date)")
+    application_type = applications[rand(0..3)]
+    puts teams[i] + ' - ' + application_type
+    res = conn.exec("insert into rt_stats (office, team, appn_type, hour, appn_count, units, modate) values ('PH', '#{teams[i]}', '#{application_type}', null, '1', '#{rand(0.1..0.8).round(1)}', current_date)")
 
   end
-  
-  for i in 0..(teams.length-1)
-    puts teams[i]
-    res = conn.exec("insert into rt_stats (office, team, appn_type, hour, appn_count, units, modate) values ('PH', '#{teams[i]}', 'FR', null, '1', '#{rand(0.1..0.8).round(2)}', current_date)")
 
-  end
-  
-  for i in 0..(teams.length-1)
-    puts teams[i]
-    res = conn.exec("insert into rt_stats (office, team, appn_type, hour, appn_count, units, modate) values ('PH', '#{teams[i]}', 'DFL', null, '1', '#{rand(0.1..0.8).round(2)}', current_date)")
-
-  end
-  
-  for i in 0..(teams.length-1)
-    puts teams[i]
-    res = conn.exec("insert into rt_stats (office, team, appn_type, hour, appn_count, units, modate) values ('PH', '#{teams[i]}', 'TP', null, '1', '#{rand(0.1..0.8).round(2)}', current_date)")
-
-  end
   sleep(5)
 
 end

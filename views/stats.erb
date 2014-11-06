@@ -135,27 +135,36 @@ body {
         <h1>Units Marked Off</h1>
         <h1 class="text-danger"><%= @unitsmarkedoff %></h1>
       </div>
-      <div class="col-md-3 jumbotron jumbotron-small" style="background: #FF0066">
-          <b>FR:</b> <%= @frunitsmarkedoff %>
+
+        <div class="col-md-3 jumbotron jumbotron-small" style="background: #FF0066">
+            <b>FR:</b> <%= @frunitsmarkedoff %>
+        </div>
+        <div class="col-md-3 jumbotron jumbotron-small" style="background: #FFFF00">
+            <b>DFL:</b> <%= @dflunitsmarkedoff %>
+        </div>
+        <div class="col-md-3 jumbotron jumbotron-small" style="background: #00CCFF">
+            <b>TP:</b> <%= @tpunitsmarkedoff %>
+        </div>
+        <div class="col-md-3 jumbotron jumbotron-small" style="background: #66FF66">
+            <b>DLG:</b> <%= @dlgunitsmarkedoff %>
+        </div>
+
+      <div class="col-md-6 jumbotron jumbotron-small">
+          <b>Daily Target:</b> 11.5
       </div>
-      <div class="col-md-3 jumbotron jumbotron-small" style="background: #FFFF00">
-          <b>DFL:</b> <%= @dflunitsmarkedoff %>
+      <div class="col-md-6 jumbotron jumbotron-small">
+          <b>Available Resource:</b> 5
       </div>
-      <div class="col-md-3 jumbotron jumbotron-small" style="background: #00CCFF">
-          <b>TP:</b> <%= @tpunitsmarkedoff %>
-      </div>
-      <div class="col-md-3 jumbotron jumbotron-small" style="background: #66FF66">
-          <b>DLG:</b> <%= @dlgunitsmarkedoff %>
-      </div>
+
 
 
 
     <form role="form" method="POST">
-      <label for="exampleInputEmail1">Today's Available Resource</label>
+      <label for="exampleInputEmail1">Update Today's Available Resource</label>
       <div class="row">
       <div class="col-md-3">
         <div class="form-group">
-          <input type="email" class="form-control" id="available_resource" name="available_resource">
+          <input class="form-control" id="available_resource" name="available_resource">
         </div>
       </div>
       <div class="col-md-4">
