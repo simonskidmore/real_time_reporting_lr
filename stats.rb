@@ -8,11 +8,16 @@ get '/stats/:team' do
   team = params[:team]
 
 conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-res = conn.exec("select * from rt_stats")
+res = conn.exec("
+	select sum(units)
+	from rt_stats
+	where modate = current_date")
 
+	res.each do |row|
+	@unitsmarkedoff = row["units"]
+	end
 
   @team = team
-  @unitsmarkedoff = '99.9'
 
   erb :stats
 end

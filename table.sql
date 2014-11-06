@@ -9,7 +9,8 @@ CREATE TABLE rt_stats
   appn_type character varying,
   hour integer,
   appn_count integer,
-  units integer
+  units integer,
+  modate date
 )
 WITH (
   OIDS=FALSE
