@@ -61,16 +61,15 @@ conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admi
 
 	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
 	res5 = conn.exec("
-  	select sum(resource)
+  	select sum(resource) as res
   	from resource
   	where team = '#{team}'
-	and office = '#{office}' 
 	")
 
 
-	@available_resource = res[5]["sum"];
+	@available_resource = res5[0]["res"];
 
-   @date = Time.now.strftime("%d/%m/%Y")
+	@date = Time.now.strftime("%d/%m/%Y")
 
   erb :stats
 
