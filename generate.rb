@@ -9,6 +9,7 @@ teams << 'CT2'
 teams << 'CT3'
 teams << 'CT4'
 teams << 'CT5'
+teams << 'CT6'
 
 while true do
 
