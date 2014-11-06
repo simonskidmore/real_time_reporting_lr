@@ -11,7 +11,9 @@ conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admi
   res = conn.exec("
   	select sum(units)
   	from rt_stats
-  	where modate = current_date")
+  	where modate = current_date
+	and team = '#{team}'
+	")
 
   @unitsmarkedoff = res[0]["sum"]
 
