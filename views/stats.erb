@@ -79,6 +79,22 @@ body {
   font-size: 21px;
 }
 
+
+.jumbotron-small {
+  padding-top: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+
+
+  padding-bottom: 10px;
+  font-size: 20px;
+  background: #e5e5e5;
+  text-align: center;
+
+}
+
+
+
 /* Supporting marketing content */
 .marketing {
   margin: 40px 0;
@@ -118,6 +134,18 @@ body {
       <div class="jumbotron">
         <h1>Units Marked Off</h1>
         <h1 class="text-danger"><%= @unitsmarkedoff %></h1>
+      </div>
+      <div class="col-md-3 jumbotron jumbotron-small" style="background: #FF0066">
+          <b>FR:</b> <%= @frunitsmarkedoff %>
+      </div>
+      <div class="col-md-3 jumbotron jumbotron-small" style="background: #FFFF00">
+          <b>DFL:</b> <%= @dflunitsmarkedoff %>
+      </div>
+      <div class="col-md-3 jumbotron jumbotron-small" style="background: #00CCFF">
+          <b>TP:</b> <%= @tpunitsmarkedoff %>
+      </div>
+      <div class="col-md-3 jumbotron jumbotron-small" style="background: #66FF66">
+          <b>DLG:</b> <%= @dlgunitsmarkedoff %>
       </div>
 
     </div> <!-- /container -->
