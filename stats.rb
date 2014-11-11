@@ -74,7 +74,8 @@ conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admi
 
   if (@unitsmarkedoff.to_f > @daily_target.to_f) then
     @greenbackground = ' style="background:#00CC99"'
-
+  else
+    @greenbackground = ''
   end
 
 	@date = Time.now.strftime("%d/%m/%Y")
@@ -83,7 +84,7 @@ conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admi
 
  end
 
-  get '/stats/:office' do
+get '/stats/:office' do
 
   office = params[:office]
 
