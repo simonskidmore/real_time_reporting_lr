@@ -6,144 +6,44 @@ set :bind, '0.0.0.0'
 get '/stats/:office/:team' do
 
   team = params[:team]
+  office = params[:office]
 
-conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-  res = conn.exec("
-  	select sum(units)
-  	from rt_stats
-  	where modate = current_date
-	and team = '#{team}'
-	")
-
-	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-  res1 = conn.exec("
-  	select sum(units)
-  	from rt_stats
-  	where modate = current_date
-	and team = '#{team}'
-	and appn_type = 'FR'
-	")
-
-	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-  res2 = conn.exec("
-  	select sum(units)
-  	from rt_stats
-  	where modate = current_date
-	and team = '#{team}'
-	and appn_type = 'DFL'
-	")
-
-	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-  res3 = conn.exec("
-  	select sum(units)
-  	from rt_stats
-  	where modate = current_date
-	and team = '#{team}'
-	and appn_type = 'TP'
-	")
-
-	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-  res4 = conn.exec("
-  	select sum(units)
-  	from rt_stats
-  	where modate = current_date
-	and team = '#{team}'
-	and appn_type = 'DLG'
-	")
-
-  @unitsmarkedoff = res[0]["sum"].to_f.to_s
-  @frunitsmarkedoff = res1[0]["sum"].to_f.to_s
-  @dflunitsmarkedoff = res2[0]["sum"].to_f.to_s
-  @tpunitsmarkedoff = res3[0]["sum"].to_f.to_s
-  @dlgunitsmarkedoff = res4[0]["sum"].to_f.to_s
+  @unitsmarkedoff = getTeamStata(office, team)[0]["sum"].to_f.to_s
+  @frunitsmarkedoff = getTeamStata(office, team, 'FR')[0]["sum"].to_f.to_s
+  @dflunitsmarkedoff = getTeamStata(office, team, 'DFL')[0]["sum"].to_f.to_s
+  @tpunitsmarkedoff = getTeamStata(office, team, 'TP')[0]["sum"].to_f.to_s
+  @dlgunitsmarkedoff = getTeamStata(office, team, 'DLG')[0]["sum"].to_f.to_s
 
   @team = team
 
-	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-	res5 = conn.exec("
-  	select sum(resource) as res
-  	from resource
-  	where team = '#{team}'
-	")
+  @available_resource = getAvailableResource(office, team)[0]["sum"].to_f.to_s
 
-
-	@available_resource = res5[0]["res"];
-
-  @daily_target = res5[0]["res"].to_f * 11;
-
+  @daily_target = @available_resource.to_f * 11;
 
   if (@unitsmarkedoff.to_f > @daily_target.to_f) then
     @greenbackground = ' style="background:#00CC99"'
-  else
-    @greenbackground = ''
   end
 
 	@date = Time.now.strftime("%d/%m/%Y")
 
   erb :stats
 
- end
+end
 
 get '/stats/:office' do
 
   office = params[:office]
 
-conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-  res = conn.exec("
-  	select sum(units)
-  	from rt_stats
-  	where modate = current_date
-	and office = '#{office}'
-	")
-
-	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-  res1 = conn.exec("
-  	select sum(units)
-  	from rt_stats
-  	where modate = current_date
-	and office = '#{office}'
-	and appn_type = 'FR'
-	")
-
-	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-  res2 = conn.exec("
-  	select sum(units)
-  	from rt_stats
-  	where modate = current_date
-	and office = '#{office}'
-	and appn_type = 'DFL'
-	")
-
-	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-  res3 = conn.exec("
-  	select sum(units)
-  	from rt_stats
-  	where modate = current_date
-	and office = '#{office}'
-	and appn_type = 'TP'
-	")
-
-	conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
-  res4 = conn.exec("
-  	select sum(units)
-  	from rt_stats
-  	where modate = current_date
-	and office = '#{office}'
-	and appn_type = 'DLG'
-	")
-
-  @unitsmarkedoff = res[0]["sum"]
-  @frunitsmarkedoff = res1[0]["sum"]
-  @dflunitsmarkedoff = res2[0]["sum"]
-  @tpunitsmarkedoff = res3[0]["sum"]
-  @dlgunitsmarkedoff = res4[0]["sum"]
+  @unitsmarkedoff = getTeamStata(office, nil)[0]["sum"].to_f.to_s
+  @frunitsmarkedoff = getTeamStata(office, nil, 'FR')[0]["sum"].to_f.to_s
+  @dflunitsmarkedoff = getTeamStata(office, nil, 'DFL')[0]["sum"].to_f.to_s
+  @tpunitsmarkedoff = getTeamStata(office, nil, 'TP')[0]["sum"].to_f.to_s
+  @dlgunitsmarkedoff = getTeamStata(office, nil, 'DLG')[0]["sum"].to_f.to_s
 
   @team = office
 
-  # get the resource for the whole office
-
-  @available_resource = '10'
-
+  @available_resource = getAvailableResource(office)[0]["sum"].to_f.to_s
+  @daily_target = @available_resource.to_f * 11;
 
   @date = Time.now.strftime("%d/%m/%Y")
   erb :stats
@@ -176,5 +76,50 @@ post '/stats/:office/:team' do
 	")
 
   redirect '/stats/' + office + '/' + team
+
+end
+
+def getTeamStata(office, team = nil, app_type = nil)
+
+  conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
+
+  sql = "select sum(units)
+    from rt_stats
+    where modate = current_date
+    and office = '#{office}'"
+
+  if (!team.nil?) then
+    sql = sql + " and team = '#{team}'"
+  end
+
+  if (!app_type.nil?) then
+    sql = sql + " and appn_type = '#{app_type}'"
+  end
+
+  res = conn.exec(sql)
+  conn.close
+
+  return res
+
+end
+
+
+def getAvailableResource(office, team = nil)
+
+  conn = PGconn.connect("localhost", "5432", "", "", "postgres", "postgres", "admin")
+
+  sql = "select sum(resource)
+    from resource
+    where office = '#{office}'"
+
+  if (!team.nil?) then
+    sql = sql + " and team = '#{team}'"
+  end
+
+  res = conn.exec(sql)
+
+  conn.close
+
+  return res
 
 end
